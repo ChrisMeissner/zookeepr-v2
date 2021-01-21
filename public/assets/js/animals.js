@@ -40,7 +40,6 @@ const getAnimals = (formData = {}) => {
     })
     .then(animalData => {
       console.log(animalData);
-      // printResults is a function that creates cards for the animalData ^
       printResults(animalData);
     });
 };
@@ -77,3 +76,4 @@ const handleGetAnimalsSubmit = event => {
 $animalForm.addEventListener('submit', handleGetAnimalsSubmit);
 
 getAnimals();
+

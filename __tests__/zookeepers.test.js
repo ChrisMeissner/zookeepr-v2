@@ -1,79 +1,75 @@
 const fs = require('fs');
 const {
   filterByQuery,
-  validateZookeeper,
+  findById,
   createNewZookeeper,
-  findById
-} = require('../lib/zookeepers');
-const { zookeepers } = require('../data/zookeepers');
+  validateZookeeper
+} = require('../lib/zookeepers.js');
 
 jest.mock('fs');
+test('creates an zookeeper object', () => {
+  const zookeeper = createNewZookeeper({ name: 'Darlene', id: 'jhgdja3ng2' }, []);
 
-test("creates a zookeeper object", () => {
-  const zookeeper = createNewZookeeper(
-    { name: "David", id: "sadf8ji"},
-    zookeepers
-  );
-
-  expect(zookeeper.name).toBe("David");
-  expect(zookeeper.id).toBe("sadf8ji");
+  expect(zookeeper.name).toBe('Darlene');
+  expect(zookeeper.id).toBe('jhgdja3ng2');
 });
 
-test("filters by query", () => {
+test('filters by query', () => {
   const startingZookeepers = [
     {
-      id: "2",
-      name: "Raksha",
+      id: '2',
+      name: 'Raksha',
       age: 31,
-      favoriteAnimal: "penguin"
+      favoriteAnimal: 'penguin'
     },
     {
-      id: "3",
-      name: "Isabella",
+      id: '3',
+      name: 'Isabella',
       age: 67,
-      favoriteAnimal: "bear"
+      favoriteAnimal: 'bear'
     }
   ];
 
-  const updatedZookeepers = filterByQuery({ age: "31"}, startingZookeepers);
+  const updatedZookeepers = filterByQuery({ age: 31 }, startingZookeepers);
 
   expect(updatedZookeepers.length).toEqual(1);
 });
 
-test("finds by id", () => {
+test('finds by id', () => {
   const startingZookeepers = [
     {
-      id: "2",
-      name: "Raksha",
+      id: '2',
+      name: 'Raksha',
       age: 31,
-      favoriteAnimal: "penguin"
+      favoriteAnimal: 'penguin'
     },
     {
-      id: "3",
-      name: "Isabella",
+      id: '3',
+      name: 'Isabella',
       age: 67,
-      favoriteAnimal: "bear"
+      favoriteAnimal: 'bear'
     }
   ];
 
-  const result = findById("3", startingZookeepers);
+  const result = findById('3', startingZookeepers);
 
-  expect(result.name).toBe("Isabella");
+  expect(result.name).toBe('Isabella');
 });
 
-test("validates age", () => {
+test('validates age', () => {
   const zookeeper = {
-    id: "2",
-    name: "Raksha",
+    id: '2',
+    name: 'Raksha',
     age: 31,
-    favoriteAnimal: "penguin"
-  }
+    favoriteAnimal: 'penguin'
+  };
 
   const invalidZookeeper = {
-    id: "2",
-    name: "Raksha",
-    age: "31",
-  }
+    id: '3',
+    name: 'Isabella',
+    age: '67',
+    favoriteAnimal: 'bear'
+  };
 
   const result = validateZookeeper(zookeeper);
   const result2 = validateZookeeper(invalidZookeeper);

@@ -20,7 +20,7 @@ const handleAnimalFormSubmit = event => {
     diet = '';
   }
 
-  const selectedTraits = $animalForm.querySelector('[name="personality"]').selectedOptions;
+  const selectedTraits = $animalForm.querySelector('[name="personality"').selectedOptions;
   const personalityTraits = [];
   for (let i = 0; i < selectedTraits.length; i += 1) {
     personalityTraits.push(selectedTraits[i].value);
@@ -36,10 +36,10 @@ const handleAnimalFormSubmit = event => {
     body: JSON.stringify(animalObject)
   })
     .then(response => {
-      if (!response.ok) {
-        alert('Error: ' + response.statusText)
+      if (response.ok) {
+        return response.json();
       }
-      return response.json(); 
+      alert('Error: ' + response.statusText);
     })
     .then(postResponse => {
       console.log(postResponse);
@@ -66,10 +66,10 @@ const handleZookeeperFormSubmit = event => {
     body: JSON.stringify(zookeeperObj)
   })
     .then(response => {
-      if(!response.ok) {
-        alert('Error: ' + response.statusText);
+      if (response.ok) {
+        return response.json();
       }
-      return response.json();
+      alert('Error: ' + response.statusText);
     })
     .then(postResponse => {
       console.log(postResponse);
