@@ -1,0 +1,83 @@
+const fs = require('fs');
+const {
+  filterByQuery,
+  validateZookeeper,
+  createNewZookeeper,
+  findById
+} = require('../lib/zookeepers');
+const { zookeepers } = require('../data/zookeepers');
+
+jest.mock('fs');
+
+test("creates a zookeeper object", () => {
+  const zookeeper = createNewZookeeper(
+    { name: "David", id: "sadf8ji"},
+    zookeepers
+  );
+
+  expect(zookeeper.name).toBe("David");
+  expect(zookeeper.id).toBe("sadf8ji");
+});
+
+test("filters by query", () => {
+  const startingZookeepers = [
+    {
+      id: "2",
+      name: "Raksha",
+      age: 31,
+      favoriteAnimal: "penguin"
+    },
+    {
+      id: "3",
+      name: "Isabella",
+      age: 67,
+      favoriteAnimal: "bear"
+    }
+  ];
+
+  const updatedZookeepers = filterByQuery({ age: "31"}, startingZookeepers);
+
+  expect(updatedZookeepers.length).toEqual(1);
+});
+
+test("finds by id", () => {
+  const startingZookeepers = [
+    {
+      id: "2",
+      name: "Raksha",
+      age: 31,
+      favoriteAnimal: "penguin"
+    },
+    {
+      id: "3",
+      name: "Isabella",
+      age: 67,
+      favoriteAnimal: "bear"
+    }
+  ];
+
+  const result = findById("3", startingZookeepers);
+
+  expect(result.name).toBe("Isabella");
+});
+
+test("validates age", () => {
+  const zookeeper = {
+    id: "2",
+    name: "Raksha",
+    age: 31,
+    favoriteAnimal: "penguin"
+  }
+
+  const invalidZookeeper = {
+    id: "2",
+    name: "Raksha",
+    age: "31",
+  }
+
+  const result = validateZookeeper(zookeeper);
+  const result2 = validateZookeeper(invalidZookeeper);
+
+  expect(result).toBe(true);
+  expect(result2).toBe(false);
+});
